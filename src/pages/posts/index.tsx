@@ -10,7 +10,7 @@ import styles from './styles.module.scss';
 type Post = {
   slug: string;
   title: string;
-  banner?: string;
+  // banner?: string;
   excerpt: string;
   updatedAt: string;
 };

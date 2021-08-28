@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Readable } from 'stream';
 import Stripe from 'stripe';
@@ -17,15 +18,15 @@ async function buffer(readable: Readable) {
 
 export const config = {
   api: {
-    bodyParser: false
-  }
+    bodyParser: false,
+  },
 };
 
 const relevantEvents = new Set([
   'checkout.session.completed',
   // 'customer.subscription.created',
   'customer.subscription.updated',
-  'customer.subscription.deleted'
+  'customer.subscription.deleted',
 ]);
 
 export default async (request: NextApiRequest, response: NextApiResponse) => {
@@ -39,7 +40,7 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
       event = stripe.webhooks.constructEvent(
         buf,
         secret,
-        process.env.NEXT_STRIPE_WEBHOOK_SECRET
+        process.env.NEXT_STRIPE_WEBHOOK_SECRET,
       );
     } catch (err) {
       return response.status(400).send(`Webhook-error: ${err.message}`);
@@ -52,30 +53,31 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
         switch (type) {
           //  case 'customer.subscription.created':
           case 'customer.subscription.updated':
-          case 'customer.subscription.deleted':
+          case 'customer.subscription.deleted': {
             const subscription = event.data.object as Stripe.Subscription;
 
             await saveSubscription(
               subscription.id,
               subscription.customer.toString(),
-              false
+              false,
               // type === 'customer.subscription.created',
             );
 
             break;
-          case 'checkout.session.completed':
+          }
+
+          case 'checkout.session.completed': {
             const checkoutSession = event.data
               .object as Stripe.Checkout.Session;
-
-            console.log(`Webhooks checkoutSession: Entrou no switch`);
 
             await saveSubscription(
               checkoutSession.subscription.toString(),
               checkoutSession.customer.toString(),
-              true
+              true,
             );
 
             break;
+          }
           default:
             throw new Error('Unhandled event.');
         }
@@ -83,10 +85,10 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
         return response.json({ error: 'Webhook handler failed.' });
       }
     }
-
-    response.json({ received: true });
-  } else {
-    response.setHeader('Allow', 'POST');
-    response.status(405).end('Method not allowed.');
+    return response.json({ received: true });
   }
+  response.setHeader('Allow', 'POST');
+  response.status(405).end('Method not allowed.');
+
+  return true;
 };

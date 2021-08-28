@@ -40,14 +40,13 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
           {
             data: {
               stripe_customer_id: stripeCustomer.id,
-            }
+            },
           },
         ),
       );
 
       customerId = stripeCustomer.id;
-    };
-
+    }
 
     const stripeCheckoutSession = await stripe.checkout.sessions.create({
       customer: customerId,
@@ -56,8 +55,8 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
       line_items: [
         {
           price: process.env.NEXT_PRODUCT_PRICE_ID,
-          quantity: 1
-        }
+          quantity: 1,
+        },
       ],
       mode: 'subscription',
       allow_promotion_codes: true,
@@ -65,9 +64,10 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
       cancel_url: process.env.NEXT_STRIPE_CANCEL_URL,
     });
 
-    return response.status(200).json({ sessionId: stripeCheckoutSession.id })
-  } else {
-    response.setHeader('Allow', 'POST');
-    response.status(405).end('Method not allowed');
+    return response.status(200).json({ sessionId: stripeCheckoutSession.id });
   }
-}
+  response.setHeader('Allow', 'POST');
+  response.status(405).end('Method not allowed');
+
+  return true;
+};

@@ -13,7 +13,7 @@ import styles from '../post.module.scss';
 type PostProps = {
   slug: string;
   title: string;
-  banner?: string;
+  // banner?: string;
   content: string;
   updatedAt: string;
 }
@@ -21,8 +21,6 @@ type PostProps = {
 type PostPreviewProps = {
   post: PostProps;
 };
-
-
 
 export default function PostPreview({ post }: PostPreviewProps) {
   const [session] = useSession();
@@ -63,15 +61,13 @@ export default function PostPreview({ post }: PostPreviewProps) {
   );
 }
 
-export const getStaticPaths = () => {
-  return {
-    paths: [],
-    fallback: 'blocking'
-  };
-};
+export const getStaticPaths = () => ({
+  paths: [],
+  fallback: 'blocking',
+});
 
 export const getStaticProps: GetStaticProps = async ({
-  params
+  params,
 }) => {
   const { slug } = params;
 
@@ -89,15 +85,15 @@ export const getStaticProps: GetStaticProps = async ({
       {
         day: '2-digit',
         month: 'long',
-        year: 'numeric'
-      }
-    )
+        year: 'numeric',
+      },
+    ),
   };
 
   return {
     props: {
-      post
+      post,
     },
-    revalidate: 60 * 30 // 30 minutes
+    revalidate: 60 * 30, // 30 minutes
   };
 };

@@ -10,7 +10,7 @@ import styles from './post.module.scss';
 type PostProps = {
   post: {
     slug: string;
-    banner?: string;
+    // banner?: string;
     title: string;
     content: string;
     updatedAt: string;
@@ -29,7 +29,7 @@ export default function Post({ post }: PostProps) {
       <main className={styles.container}>
         <article className={styles.post}>
           <h1>{post.title}</h1>
-          <img src={post.banner} alt={post.title} />
+          {/* <img src={post.banner} alt={post.title} /> */}
           <time>{post.updatedAt}</time>
           <div
             className={styles.postContent}
