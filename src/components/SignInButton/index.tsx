@@ -1,16 +1,31 @@
 import { FaGithub } from 'react-icons/fa';
+import { CgSpinner } from 'react-icons/cg';
 import { FiX } from 'react-icons/fi';
 import { signIn, signOut, useSession } from 'next-auth/client';
 
+import { useState } from 'react';
 import styles from './styles.module.scss';
 
 export function SignInButton() {
-  const [session] = useSession();
+  const [signInLoading, setSignInLoading] = useState(false);
+  const [session, loading] = useSession();
+
+  if (loading || signInLoading) {
+    return (
+      <button
+        type="button"
+        disabled={loading || signInLoading}
+        className={`${styles.signInButton} ${styles.loading}`}
+      >
+        <CgSpinner color="#eba417" className={styles.closeIcon} />
+      </button>
+    );
+  }
 
   return session ? (
     <button
       type="button"
-      className={styles.signInButton}
+      className={`${styles.signInButton} ${styles.loading}`}
       onClick={() => signOut()}
     >
       <FaGithub color="#04d361" />
@@ -21,10 +36,13 @@ export function SignInButton() {
     <button
       type="button"
       className={styles.signInButton}
-      onClick={() => signIn('github')}
+      onClick={() => {
+        setSignInLoading(true);
+        signIn('github');
+      }}
     >
       <FaGithub color="#eba417" />
       Sign in with Github
     </button>
-  )
+  );
 }

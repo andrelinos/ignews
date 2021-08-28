@@ -10,14 +10,19 @@ import { getPrismicClient } from '../../../services/prismic';
 
 import styles from '../post.module.scss';
 
+type PostProps = {
+  slug: string;
+  title: string;
+  banner?: string;
+  content: string;
+  updatedAt: string;
+}
+
 type PostPreviewProps = {
-  post: {
-    slug: string;
-    title: string;
-    content: string;
-    updatedAt: string;
-  };
+  post: PostProps;
 };
+
+
 
 export default function PostPreview({ post }: PostPreviewProps) {
   const [session] = useSession();
@@ -65,7 +70,9 @@ export const getStaticPaths = () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
+export const getStaticProps: GetStaticProps = async ({
+  params
+}) => {
   const { slug } = params;
 
   const prismic = getPrismicClient();
@@ -74,6 +81,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const post = {
     slug,
+    // banner: response.data.banner.url,
     title: RichText.asText(response.data.title),
     content: RichText.asHtml(response.data.content.splice(0, 1)),
     updatedAt: new Date(response.last_publication_date).toLocaleDateString(
