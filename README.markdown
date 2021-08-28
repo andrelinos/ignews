@@ -234,7 +234,7 @@ Andrelino Silva 🚀</b></a>
   | Rede social | Saiba mais |
   | --- | --- |
   | GitHub | [https://github.com/andrelinos](https://github.com/andrelinos) |
-  | Linkedin | [https://linkedin.com// in/andrelinosilva](https://linkedin.com//in/andrelinosilva) |
+  | Linkedin | [https://linkedin.com// in/andrelinosilva](https://linkedin.com/in/andrelinosilva) |
   | Twitter| [https://twitter.com/ _andrelinosilva](https://twitter.com/_andrelinosilva) |
   | Facebook | [https://facebook.com/ andrelinossilva](https://facebook.com/andrelinossilva/) |
   | Instagram| [https://instagram.com/andrelinossilva](https://instagram.com/andrelinossilva/) |

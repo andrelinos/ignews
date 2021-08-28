@@ -9,9 +9,7 @@ async function buffer(readable: Readable) {
   const chunks = [];
 
   for await (const chunk of readable) {
-    chunks.push(
-      typeof chunk === 'string' ? Buffer.from(chunk) : chunk
-    );
+    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk);
   }
 
   return Buffer.concat(chunks);
@@ -25,10 +23,9 @@ export const config = {
 
 const relevantEvents = new Set([
   'checkout.session.completed',
- // 'customer.subscription.created',
+  // 'customer.subscription.created',
   'customer.subscription.updated',
-  'customer.subscription.deleted',
-
+  'customer.subscription.deleted'
 ]);
 
 export default async (request: NextApiRequest, response: NextApiResponse) => {
@@ -39,7 +36,11 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
     let event: Stripe.Event;
 
     try {
-      event = stripe.webhooks.constructEvent(buf, secret, process.env.STRIPE_WEBHOOK_SECRET);
+      event = stripe.webhooks.constructEvent(
+        buf,
+        secret,
+        process.env.NEXT_STRIPE_WEBHOOK_SECRET
+      );
     } catch (err) {
       return response.status(400).send(`Webhook-error: ${err.message}`);
     }
@@ -49,7 +50,7 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
     if (relevantEvents.has(type)) {
       try {
         switch (type) {
-        //  case 'customer.subscription.created':
+          //  case 'customer.subscription.created':
           case 'customer.subscription.updated':
           case 'customer.subscription.deleted':
             const subscription = event.data.object as Stripe.Subscription;
@@ -63,8 +64,8 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
 
             break;
           case 'checkout.session.completed':
-
-            const checkoutSession = event.data.object as Stripe.Checkout.Session;
+            const checkoutSession = event.data
+              .object as Stripe.Checkout.Session;
 
             console.log(`Webhooks checkoutSession: Entrou no switch`);
 
@@ -77,7 +78,7 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
             break;
           default:
             throw new Error('Unhandled event.');
-        };
+        }
       } catch (err) {
         return response.json({ error: 'Webhook handler failed.' });
       }
@@ -88,4 +89,4 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
     response.setHeader('Allow', 'POST');
     response.status(405).end('Method not allowed.');
   }
-}
+};
