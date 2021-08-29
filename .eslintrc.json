@@ -17,7 +17,8 @@
   },
   "plugins": [
     "react",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "eslint-plugin-import-helpers"
   ],
   "rules": {
     "react/jsx-filename-extension": [
@@ -70,8 +71,29 @@
         ]
       }
     ],
-    "no-undef": ["off"],
+    "no-undef": [
+      "off"
+    ],
     "no-unused-expressions": "off",
-    "no-alert": "off"
+    "no-alert": "off",
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always",
+        "groups": [
+          "module",
+          "/^@shared/",
+          [
+            "parent",
+            "sibling",
+            "index"
+          ]
+        ],
+        "alphabetize": {
+          "order": "asc",
+          "ignoreCase": true
+        }
+      }
+    ]
   }
 }
