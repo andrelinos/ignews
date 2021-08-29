@@ -6,8 +6,8 @@ import { useRouter } from 'next/router';
 import { RichText } from 'prismic-dom';
 import { useEffect } from 'react';
 
+import { Footer } from '../../../components/Footer';
 import { getPrismicClient } from '../../../services/prismic';
-
 import styles from '../post.module.scss';
 
 type PostProps = {
@@ -57,6 +57,7 @@ export default function PostPreview({ post }: PostPreviewProps) {
           </div>
         </article>
       </main>
+      <Footer />
     </>
   );
 }

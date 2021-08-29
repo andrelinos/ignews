@@ -3,14 +3,14 @@ import { getSession, session } from 'next-auth/client';
 import Head from 'next/head';
 import { RichText } from 'prismic-dom';
 
+import { Footer } from '../../components/Footer';
 import { getPrismicClient } from '../../services/prismic';
-
 import styles from './post.module.scss';
 
 type PostProps = {
   post: {
     slug: string;
-    // banner?: string;
+    banner?: string;
     title: string;
     content: string;
     updatedAt: string;
@@ -28,8 +28,8 @@ export default function Post({ post }: PostProps) {
 
       <main className={styles.container}>
         <article className={styles.post}>
+          <img src={post.banner} alt={post.title} />
           <h1>{post.title}</h1>
-          {/* <img src={post.banner} alt={post.title} /> */}
           <time>{post.updatedAt}</time>
           <div
             className={styles.postContent}
@@ -38,6 +38,7 @@ export default function Post({ post }: PostProps) {
           />
         </article>
       </main>
+      <Footer />
     </>
   );
 }
@@ -64,7 +65,7 @@ export const getServerSideProps: GetServerSideProps = async ({
 
   const post = {
     slug,
-    // banner: response.data.banner.url,
+    banner: response.data.banner.url,
     title: RichText.asText(response.data.title),
     content: RichText.asHtml(response.data.content),
     updatedAt: new Date(response.last_publication_date).toLocaleDateString(
