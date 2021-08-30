@@ -8,7 +8,7 @@
     "start": "next start",
     "test": "jest",
     "test-w": "jest --watchAll --runInBand --no-watchman",
-    "stripe": "stripe-cli/stripe listen  --forward-to localhost:3000/api/webhooks",
+    "stripe": "stripe-cli/stripe listen --forward-to localhost:3000/api/webhooks",
     "coverage": "jest --coverage",
     "update:packages": "node wipe-dependencies.js && rm -rf node_modules && npm update --save-dev && npm update --save"
   },
@@ -16,7 +16,7 @@
     "@prismicio/client": "^5.1.0",
     "@stripe/stripe-js": "^1.17.1",
     "axios": "^0.21.1",
-    "faunadb": "^4.3.0",
+    "faunadb": "^4.4.0",
     "next": "^11.1.0",
     "next-auth": "^3.29.0",
     "prismic-dom": "^2.2.6",

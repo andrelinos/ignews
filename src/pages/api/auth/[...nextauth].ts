@@ -51,8 +51,10 @@ export default NextAuth({
       }
     },
 
-    async signIn(user, account, profile) {
+    async signIn(user) {
       const { email } = user;
+
+      console.log(user);
 
       try {
         await fauna.query(
@@ -81,7 +83,8 @@ export default NextAuth({
         );
 
         return true;
-      } catch {
+      } catch (err) {
+        console.log(err);
         return false;
       }
     },
