@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /* eslint-disable no-restricted-syntax */
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Readable } from 'stream';
@@ -44,6 +45,8 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
       );
     } catch (err) {
       return response.status(400).send(`Webhook-error: ${err.message}`);
+      // eslint-disable-next-line no-unreachable
+      console.log(err);
     }
 
     const { type } = event;
@@ -53,7 +56,7 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
         switch (type) {
           //  case 'customer.subscription.created':
           case 'customer.subscription.updated':
-          case 'customer.subscription.deleted': {
+          case 'customer.subscription.deleted':
             const subscription = event.data.object as Stripe.Subscription;
 
             await saveSubscription(
@@ -64,7 +67,6 @@ export default async (request: NextApiRequest, response: NextApiResponse) => {
             );
 
             break;
-          }
 
           case 'checkout.session.completed': {
             const checkoutSession = event.data
