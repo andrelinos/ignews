@@ -8,7 +8,6 @@ import { getPrismicClient } from '../../services/prismic';
 const post = {
   slug: 'my-new-post',
   title: 'My New Post',
-  banner: '<img src="http://localhost:3000/images/image.jpg" />',
   content: '<p>Post content</p>',
   updatedAt: '10 de Julho',
 };
@@ -55,7 +54,6 @@ describe('Posts page', () => {
       getByUID: jest.fn().mockResolvedValueOnce({
         data: {
           title: [{ type: 'heading', text: 'My New Post' }],
-          banner: [{ type: 'image', url: 'http://localhost:3000/images/image.jpg' }],
           content: [{ type: 'paragraph', text: 'Post content' }],
         },
         last_publication_date: '07-10-2021',
@@ -79,7 +77,6 @@ describe('Posts page', () => {
           post: {
             slug: 'my-new-post',
             title: 'My New Post',
-            banner: '<img src="http://localhost:8080/images/image.jpg" />',
             content: '<p>Post content</p>',
             updatedAt: '10 de julho de 2021',
           },

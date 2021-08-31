@@ -1,4 +1,3 @@
-/* eslint-disable quotes */
 import { query as q } from 'faunadb';
 import NextAuth from 'next-auth';
 import Providers from 'next-auth/providers';
@@ -22,7 +21,7 @@ export default NextAuth({
               q.Match(
                 q.Index('subscription_by_user_ref'),
                 q.Select(
-                  "ref",
+                  'ref',
                   q.Get(
                     q.Match(
                       q.Index('user_by_email'),

@@ -44,6 +44,7 @@ export default function PostPreview({ post }: PostPreviewProps) {
           <time>{post.updatedAt}</time>
           <div
             className={`${styles.postContent} ${styles.previewContent}`}
+            // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
 

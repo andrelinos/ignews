@@ -1,7 +1,9 @@
-import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Document, {
+  Html, Head, Main, NextScript,
+} from 'next/document';
 
 export default class MyDocument extends Document {
-  reder() {
+  render() {
     return (
       <Html>
         <Head>
@@ -15,6 +17,6 @@ export default class MyDocument extends Document {
           <NextScript />
         </body>
       </Html>
-    )
+    );
   }
 }

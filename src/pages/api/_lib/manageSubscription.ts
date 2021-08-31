@@ -1,4 +1,3 @@
-/* eslint-disable quotes */
 import { query as q } from 'faunadb';
 
 import { fauna } from '../../../services/fauna';
@@ -11,7 +10,7 @@ export async function saveSubscription(
 ) {
   const userRef = await fauna.query(
     q.Select(
-      "ref",
+      'ref',
       q.Get(
         q.Match(
           q.Index('user_by_stripe_customer_id'),
@@ -63,7 +62,7 @@ export async function saveSubscription(
     await fauna.query(
       q.Replace(
         q.Select(
-          "ref",
+          'ref',
           q.Get(
             q.Match(
               q.Index('subscription_by_id'),
