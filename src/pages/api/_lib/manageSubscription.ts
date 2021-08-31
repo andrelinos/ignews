@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import { query as q } from 'faunadb';
 
 import { fauna } from '../../../services/fauna';
@@ -17,7 +18,7 @@ export async function saveSubscription(
           customerId,
         ),
       ),
-    )
+    ),
   );
 
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
@@ -37,27 +38,23 @@ export async function saveSubscription(
             q.Exists(
               q.Match(
                 q.Index('subscription_by_id'),
-                q.Casefold(subscription.id)
-              )
-            )
+                q.Casefold(subscription.id),
+              ),
+            ),
           ),
           q.Create(
             q.Collection('subscriptions'),
             {
-              data: subscriptionData
+              data: subscriptionData,
             },
           ),
           q.Get(
             q.Match(
               q.Index('subscription_by_id'),
-              q.Casefold(subscription.id)
-            )
-          )
-        )
-        /* q.Create(
-          q.Collection('subscriptions'),
-          { data: subscriptionData },
-        ), */
+              q.Casefold(subscription.id),
+            ),
+          ),
+        ),
       );
     } catch (err) {
       throw new Error('Error save subscriptions.');
@@ -71,12 +68,11 @@ export async function saveSubscription(
             q.Match(
               q.Index('subscription_by_id'),
               subscriptionId,
-            )
-          )
+            ),
+          ),
         ),
-        { data: subscriptionData }
-      )
-    )
+        { data: subscriptionData },
+      ),
+    );
   }
-
-};
+}
