@@ -13,7 +13,7 @@ import styles from '../post.module.scss';
 type PostProps = {
   slug: string;
   title: string;
-  // banner?: string;
+  banner?: string;
   content: string;
   updatedAt: string;
 }
@@ -41,6 +41,7 @@ export default function PostPreview({ post }: PostPreviewProps) {
       <main className={styles.container}>
         <article className={styles.post}>
           <h1>{post.title}</h1>
+          <img src={post.banner} alt={post.title} />
           <time>{post.updatedAt}</time>
           <div
             className={`${styles.postContent} ${styles.previewContent}`}
@@ -79,7 +80,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   const post = {
     slug,
-    // banner: response.data.banner.url,
+    banner: response.data.banner.url,
     title: RichText.asText(response.data.title),
     content: RichText.asHtml(response.data.content.splice(0, 1)),
     updatedAt: new Date(response.last_publication_date).toLocaleDateString(
