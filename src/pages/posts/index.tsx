@@ -3,8 +3,10 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { RichText } from 'prismic-dom';
+import { useState } from 'react';
 
 import { Footer } from '../../components/Footer';
+import { Pagination } from '../../components/Pagination';
 import { getPrismicClient } from '../../services/prismic';
 import styles from './styles.module.scss';
 
@@ -21,6 +23,8 @@ interface PostsProps {
 }
 
 export default function Posts({ posts }: PostsProps) {
+  const [page, setPage] = useState(1);
+
   return (
     <>
       <Head>
@@ -44,6 +48,11 @@ export default function Posts({ posts }: PostsProps) {
             </Link>
           ))}
         </div>
+        <Pagination
+          totalCountOfRegisters={posts.length}
+          currentPage={page}
+          onPageChange={setPage}
+        />
       </main>
       <Footer />
     </>
