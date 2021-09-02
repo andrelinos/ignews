@@ -12,7 +12,7 @@ export function PaginationItem({
   numberPage,
 }: PaginationItemProps) {
   return isCurrentPage ? (
-    <button type="button" className={styles.button} disabled>
+    <button type="button" className={styles.currentButton} disabled>
       {numberPage}
     </button>
   ) : (
