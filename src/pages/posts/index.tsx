@@ -20,9 +20,15 @@ type Post = {
 
 interface PostsProps {
   posts: Post[];
+  post: string;
+  prevpost: string[];
+  nextpost: string[];
 }
 
-export default function Posts({ posts }: PostsProps) {
+export default function Posts({
+  posts, post, prevpost, nextpost,
+}: PostsProps) {
+  const [allPosts, setAllPosts] = useState(posts);
   const [page, setPage] = useState(1);
 
   return (
@@ -59,13 +65,39 @@ export default function Posts({ posts }: PostsProps) {
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getStaticProps: GetStaticProps = async (
+  { params, preview = null, previewData = {} },
+) => {
+  const { ref } = previewData;
   const prismic = getPrismicClient();
+
+  const post = await prismic.getByUID('post', params.uid, ref
+    ? { ref }
+    : null) || {};
+
+  const prevpost = (await prismic.query(
+    Prismic.Predicates.at('document.type', 'post'),
+    {
+      pageSize: 1,
+      // after: `${post.id}`,
+      orderings: '[my.post.date desc]',
+    },
+  )).results[0] || 'undefined';
+
+  const nextpost = (await prismic.query(
+    Prismic.Predicates.at('document.type', 'post'),
+    {
+      pageSize: 1,
+      // after: `${posts.}`,
+      orderings: '[my.post.date]',
+    },
+  )).results[0] || 'undefined';
 
   const response = await prismic.query(
     [Prismic.predicates.at('document.type', 'post')],
     {
       fetch: ['post.title', 'post.content', 'post.banner'],
+      orderings: '[my.post.date desc]',
       pageSize: 10,
       page: 1,
     },
