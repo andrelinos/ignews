@@ -20,16 +20,44 @@ type Post = {
 
 interface PostsProps {
   posts: Post[];
-  post: string;
-  prevpost: string[];
-  nextpost: string[];
 }
 
-export default function Posts({
-  posts, post, prevpost, nextpost,
-}: PostsProps) {
+interface PostPagination {
+  next_page: string;
+  results: Post[];
+}
+
+interface PaginationProps {
+  postsPagination: PostPagination;
+  preview: boolean;
+}
+
+export default function Posts({ posts }: PostsProps) {
   const [allPosts, setAllPosts] = useState(posts);
+  const [nextPage, setNextPage] = useState('');
   const [page, setPage] = useState(1);
+
+  function handlePagination() {
+    fetch(nextPage)
+      .then((response) => response.json())
+      .then((data) => {
+        const formattedData = data.results.map((post) => ({
+          uid: post.uid,
+          first_publication_date: post.first_publication_date,
+          data: {
+            banner: post.data.banner.url,
+            title: post.data.title,
+            subtitle: post.data.subtitle,
+            author: post.data.author,
+          },
+        }));
+
+        setPage(page);
+        setNextPage(data.next_page);
+
+        setAllPosts((oldState) => [...oldState, ...formattedData]);
+      });
+  }
 
   return (
     <>
@@ -65,41 +93,15 @@ export default function Posts({
   );
 }
 
-export const getStaticProps: GetStaticProps = async (
-  { params, preview = null, previewData = {} },
-) => {
-  const { ref } = previewData;
+export const getStaticProps: GetStaticProps<PostsProps | PaginationProps> = async () => {
   const prismic = getPrismicClient();
-
-  const post = await prismic.getByUID('post', params.uid, ref
-    ? { ref }
-    : null) || {};
-
-  const prevpost = (await prismic.query(
-    Prismic.Predicates.at('document.type', 'post'),
-    {
-      pageSize: 1,
-      // after: `${post.id}`,
-      orderings: '[my.post.date desc]',
-    },
-  )).results[0] || 'undefined';
-
-  const nextpost = (await prismic.query(
-    Prismic.Predicates.at('document.type', 'post'),
-    {
-      pageSize: 1,
-      // after: `${posts.}`,
-      orderings: '[my.post.date]',
-    },
-  )).results[0] || 'undefined';
 
   const response = await prismic.query(
     [Prismic.predicates.at('document.type', 'post')],
     {
       fetch: ['post.title', 'post.content', 'post.banner'],
       orderings: '[my.post.date desc]',
-      pageSize: 10,
-      page: 1,
+      pageSize: 20,
     },
   );
 

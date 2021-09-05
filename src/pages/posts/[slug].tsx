@@ -24,8 +24,6 @@ export default function Post({ post }: PostProps) {
         <title>{post.title} | Ignews</title>
       </Head>
 
-      {console.log(post)}
-
       <main className={styles.container}>
         <article className={styles.post}>
           <img src={post.banner} alt={post.title} />
