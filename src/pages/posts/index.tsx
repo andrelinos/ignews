@@ -52,7 +52,6 @@ export default function Posts({ posts }: PostsProps) {
           },
         }));
 
-        setPage(page);
         setNextPage(data.next_page);
 
         setAllPosts((oldState) => [...oldState, ...formattedData]);
@@ -67,7 +66,7 @@ export default function Posts({ posts }: PostsProps) {
 
       <main className={styles.container}>
         <div className={styles.posts}>
-          {posts.map((post) => (
+          {allPosts.map((post) => (
             <Link key={post.slug} href={`/posts/${post.slug}`}>
               <a>
                 <div>
