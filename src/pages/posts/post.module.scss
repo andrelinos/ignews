@@ -36,7 +36,8 @@
     font-size: 1.125rem;
     color: var(--gray-100);
 
-    p, ul {
+    p,
+    ul {
       margin: 1.5rem 0;
     }
 
@@ -71,6 +72,39 @@
 
     &:hover {
       text-decoration: underline;
+    }
+  }
+}
+
+.prevNextContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 3rem 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--gray-850);
+
+  span {
+    height: 2.5rem;
+    display: block;
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--yellow-500);
+
+    p {
+      max-width: 300px;
+      white-space: nowrap;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    a {
+      display: block;
+      color: var(--yellow-500);
+      margin-left: 0.5rem;
     }
   }
 }

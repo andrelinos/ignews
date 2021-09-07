@@ -100,7 +100,7 @@ export const getStaticProps: GetStaticProps<PostsProps | PaginationProps> = asyn
     {
       fetch: ['post.title', 'post.content', 'post.banner'],
       orderings: '[my.post.date desc]',
-      pageSize: 20,
+      pageSize: 5,
     },
   );
 
