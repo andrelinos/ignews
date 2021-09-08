@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { RichText } from 'prismic-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Footer } from '../../components/Footer';
 import { Pagination } from '../../components/Pagination';
@@ -23,7 +23,7 @@ interface PostsProps {
 }
 
 interface PostPagination {
-  next_page: string;
+  nextPage: string;
   results: Post[];
 }
 
@@ -36,6 +36,10 @@ export default function Posts({ posts }: PostsProps) {
   const [allPosts, setAllPosts] = useState(posts);
   const [nextPage, setNextPage] = useState('');
   const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    handlePagination();
+  }, [page]);
 
   function handlePagination() {
     fetch(nextPage)
@@ -99,8 +103,8 @@ export const getStaticProps: GetStaticProps<PostsProps | PaginationProps> = asyn
     [Prismic.predicates.at('document.type', 'post')],
     {
       fetch: ['post.title', 'post.content', 'post.banner'],
-      orderings: '[my.post.date desc]',
-      pageSize: 5,
+      // orderings: '[my.post.date desc]',
+      pageSize: 20,
     },
   );
 
