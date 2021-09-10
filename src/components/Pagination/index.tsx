@@ -25,6 +25,7 @@ export function Pagination({
   const lastPage = Math.ceil(totalCountOfRegisters / registerPerPage);
 
   console.log(totalCountOfRegisters);
+  console.log(currentPage);
 
   const previousPages = currentPage > 1
     ? generatePageArray(currentPage - 1 - siblingsCount, currentPage - 1)
@@ -54,11 +55,11 @@ export function Pagination({
         {currentPage > 1 + siblingsCount && (
           <>
             <PaginationItem
-              numberPage={1}
               onPageChange={onPageChange}
+              number={1}
               isCurrentPage
             />
-            {currentPage > 2 + siblingsCount && <span>...</span>}
+            {currentPage > (2 + siblingsCount) && <span>...</span>}
           </>
         )}
 
@@ -66,32 +67,32 @@ export function Pagination({
           && previousPages.map((page) => (
             <PaginationItem
               key={page}
-              numberPage={page}
+              number={page}
               onPageChange={onPageChange}
             />
           ))}
 
         <PaginationItem
-          numberPage={currentPage}
           onPageChange={onPageChange}
+          number={currentPage}
           isCurrentPage
         />
 
         {nextPages.length > 0
           && nextPages.map((page) => (
             <PaginationItem
-              key={page}
-              numberPage={page}
               onPageChange={onPageChange}
+              key={page}
+              number={page}
             />
           ))}
 
-        {currentPage + siblingsCount < lastPage && (
+        {(currentPage + siblingsCount) < lastPage && (
           <>
-            {currentPage + (1 + siblingsCount) < lastPage && <span>...</span>}
+            {(currentPage + 1 + siblingsCount) < lastPage && <span>...</span>}
             <PaginationItem
-              numberPage={lastPage}
               onPageChange={onPageChange}
+              number={lastPage}
             />
           </>
         )}

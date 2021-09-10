@@ -35,6 +35,7 @@ interface PaginationProps {
 export default function Posts({ posts }: PostsProps) {
   const [allPosts, setAllPosts] = useState(posts);
   const [nextPage, setNextPage] = useState('');
+
   const [page, setPage] = useState(1);
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import styles from './paginationItem.module.scss';
 
 type PaginationItemProps = {
-  numberPage: number;
+  number: number;
   isCurrentPage?: boolean;
   onPageChange: (page: number) => void;
 };
@@ -9,19 +9,19 @@ type PaginationItemProps = {
 export function PaginationItem({
   isCurrentPage = false,
   onPageChange,
-  numberPage,
+  number,
 }: PaginationItemProps) {
   return isCurrentPage ? (
     <button type="button" className={styles.currentButton} disabled>
-      {numberPage}
+      {number}
     </button>
   ) : (
     <button
       type="button"
       className={styles.buttonItem}
-      onClick={() => onPageChange(numberPage)}
+      onClick={() => onPageChange(number)}
     >
-      {numberPage}
+      {number}
     </button>
   );
 }
